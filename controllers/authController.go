@@ -20,5 +20,7 @@ func Register(c *fiber.Ctx) error {
 		Password: password,
 	}
 
-	return c.JSON(user)
+	novoUsuario := models.InsereNovoUsuario(user)
+
+	return c.JSON(novoUsuario)
 }
