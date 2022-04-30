@@ -9,13 +9,13 @@ import (
 )
 
 func Connect() {
-	db, err := sql.Open("mysql", "root:123456@/yt_go_auth")
+	connection, err := sql.Open("mysql", "root:123456@/yt_go_auth")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(db)
+	fmt.Println(connection)
 	// See "Important settings" section.
-	db.SetConnMaxLifetime(time.Minute * 3)
-	db.SetMaxOpenConns(10)
-	db.SetMaxIdleConns(10)
+	connection.SetConnMaxLifetime(time.Minute * 3)
+	connection.SetMaxOpenConns(10)
+	connection.SetMaxIdleConns(10)
 }
