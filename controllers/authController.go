@@ -74,7 +74,7 @@ func Login(c *fiber.Ctx) error {
 	}
 
 	cookie := fiber.Cookie{
-		Name:     "Jwt",
+		Name:     "jwt",
 		Value:    token,
 		Expires:  time.Now().Add(time.Hour * 24),
 		HTTPOnly: true,
@@ -85,4 +85,23 @@ func Login(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "success",
 	})
+}
+
+func User(c *fiber.Ctx) error {
+	cookie := c.Cookies("jwt")
+
+	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secretKey), nil
+	})
+
+	if err != nil {
+		c.Status(fiber.StatusUnauthorized)
+		return c.JSON(fiber.Map{
+			"message": "Não autenticado.",
+		})
+	}
+
+	claims := token.Claims
+
+	return c.JSON(claims)
 }
