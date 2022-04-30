@@ -7,10 +7,10 @@ import (
 )
 
 type User struct {
-	Id       uint
-	Name     string
-	Email    string
-	Password []byte
+	Id       uint   `json:"id"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password []byte `json:"password"`
 }
 
 func InsereNovoUsuario(user User) User {
@@ -38,4 +38,20 @@ func InsereNovoUsuario(user User) User {
 	userInserido.Id = uint(lastId)
 
 	return userInserido
+}
+
+func Logar(data User) User {
+	var usuarioLogado User
+
+	db := database.Connect()
+	defer db.Close()
+
+	queryString := "SELECT * FROM users where email = ?"
+
+	err := db.QueryRow(queryString, data.Email).Scan(&usuarioLogado.Id, &usuarioLogado.Name, &usuarioLogado.Email, &usuarioLogado.Password)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return usuarioLogado
 }
