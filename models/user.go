@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"log"
 	"yt_go_auth/database"
 )
@@ -24,13 +23,14 @@ func InsereNovoUsuario(user User) User {
 
 	stmtIns, err := db.Prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)")
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Println(err)
 	}
 	defer stmtIns.Close()
 
 	result, err := stmtIns.Exec(userInserido.Name, userInserido.Email, userInserido.Password)
 	if err != nil {
 		log.Println(err)
+		return userInserido
 	}
 
 	lastId, _ := result.LastInsertId()

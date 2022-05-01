@@ -9,7 +9,7 @@ import (
 )
 
 func Connect() sql.DB {
-	connection, err := sql.Open("mysql", "root:123456@/yt_go_auth")
+	connection, err := sql.Open("mysql", "yt_go_auth:123456@/yt_go_auth")
 	if err != nil {
 		panic(err)
 	}

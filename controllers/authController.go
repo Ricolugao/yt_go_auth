@@ -26,7 +26,11 @@ func Register(c *fiber.Ctx) error {
 	}
 
 	novoUsuario := models.InsereNovoUsuario(user)
-
+	if novoUsuario.Id == 0 {
+		return c.JSON(fiber.Map{
+			"message": "email ja cadastrado",
+		})
+	}
 	return c.JSON(novoUsuario)
 }
 
