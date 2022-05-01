@@ -101,7 +101,9 @@ func User(c *fiber.Ctx) error {
 		})
 	}
 
-	claims := token.Claims
+	claims := token.Claims.(*jwt.StandardClaims)
 
-	return c.JSON(claims)
+	user := models.FindUserById(claims.Issuer)
+
+	return c.JSON(user)
 }

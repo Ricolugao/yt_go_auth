@@ -55,3 +55,16 @@ func Logar(data User) User {
 
 	return usuarioLogado
 }
+
+func FindUserById(id string) User {
+	var usuarioLogado User
+
+	db := database.Connect()
+	defer db.Close()
+
+	err := db.QueryRow("SELECT * FROM users where id = ?", id).Scan(&usuarioLogado.Id, &usuarioLogado.Name, &usuarioLogado.Email, &usuarioLogado.Password)
+	if err != nil {
+		log.Println(err)
+	}
+	return usuarioLogado
+}
